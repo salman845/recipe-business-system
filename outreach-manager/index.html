@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outreach Manager - Recipe Business</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .metric-card h3 {
+            color: #f5576c;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        .metric-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        input, select, textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #f5576c;
+            box-shadow: 0 0 5px rgba(245, 87, 108, 0.3);
+        }
+
+        textarea {
+            grid-column: 1 / -1;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 5px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .table-section {
+            margin-top: 40px;
+        }
+
+        .table-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .channel-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-sent {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-opened {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .status-replied {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-no-response {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-buttons button {
+            padding: 6px 12px;
+            font-size: 0.85em;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-section input,
+        .filter-section select {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📧 Outreach Manager</h1>
+            <p>Track all your marketing campaigns and communications</p>
+        </header>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <h3 id="totalOutreach">0</h3>
+                <p>Total Outreach</p>
+            </div>
+            <div class="metric-card">
+                <h3 id="responseRate">0%</h3>
+                <p>Response Rate</p>
+            </div>
+            <div class="metric-card">
+                <h3 id="emailsSent">0</h3>
+                <p>Emails Sent</p>
+            </div>
+            <div class="metric-card">
+                <h3 id="linkedinOutreach">0</h3>
+                <p>LinkedIn Sent</p>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="form-section">
+                <h2>➕ Log Outreach Campaign</h2>
+                <div class="form-grid">
+                    <input type="text" id="recipientName" placeholder="Recipient Name" required>
+                    <input type="email" id="recipientEmail" placeholder="Email Address">
+                    <input type="text" id="recipientCompany" placeholder="Company Name" required>
+                    <select id="channel" required>
+                        <option value="">Select Channel</option>
+                        <option value="Email">Email</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Instagram DM">Instagram DM</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Upwork">Upwork</option>
+                        <option value="Fiverr">Fiverr</option>
+                        <option value="Reddit">Reddit</option>
+                        <option value="Cold Call">Cold Call</option>
+                    </select>
+                    <input type="date" id="dateSent" required>
+                    <select id="outreachStatus" required>
+                        <option value="Sent">Sent</option>
+                        <option value="Opened">Opened</option>
+                        <option value="Replied">Replied</option>
+                        <option value="No Response">No Response</option>
+                    </select>
+                    <select id="serviceType" required>
+                        <option value="">Service Offered</option>
+                        <option value="Recipe Development">Recipe Development</option>
+                        <option value="Menu Development">Menu Development</option>
+                        <option value="Sauce Formulation">Sauce Formulation</option>
+                        <option value="Healthy Recipes">Healthy Recipes</option>
+                        <option value="Cookbook Recipes">Cookbook Recipes</option>
+                        <option value="Fast-food Concepts">Fast-food Concepts</option>
+                    </select>
+                    <input type="date" id="followUpDate" placeholder="Next Follow-up Date">
+                    <textarea id="campaignNotes" placeholder="Campaign message, response notes, etc..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button onclick="addOutreach()">Log Outreach</button>
+                    <button class="btn-secondary" onclick="exportOutreach()">📥 Export CSV</button>
+                    <button class="btn-secondary" onclick="clearAllOutreach()">🗑️ Clear All</button>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <h2>📊 Outreach History</h2>
+                <div class="filter-section">
+                    <input type="text" id="searchOutreach" placeholder="Search by name or company...">
+                    <select id="filterChannel">
+                        <option value="">All Channels</option>
+                        <option value="Email">Email</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Instagram DM">Instagram DM</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Upwork">Upwork</option>
+                    </select>
+                    <select id="filterOutreachStatus">
+                        <option value="">All Statuses</option>
+                        <option value="Sent">Sent</option>
+                        <option value="Opened">Opened</option>
+                        <option value="Replied">Replied</option>
+                        <option value="No Response">No Response</option>
+                    </select>
+                </div>
+                <div id="outreachTableContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let outreachData = JSON.parse(localStorage.getItem('outreachData')) || [];
+
+        function addOutreach() {
+            const recipientName = document.getElementById('recipientName').value;
+            const recipientEmail = document.getElementById('recipientEmail').value;
+            const recipientCompany = document.getElementById('recipientCompany').value;
+            const channel = document.getElementById('channel').value;
+            const dateSent = document.getElementById('dateSent').value;
+            const outreachStatus = document.getElementById('outreachStatus').value;
+            const serviceType = document.getElementById('serviceType').value;
+            const followUpDate = document.getElementById('followUpDate').value;
+            const campaignNotes = document.getElementById('campaignNotes').value;
+
+            if (!recipientName || !recipientCompany || !channel || !dateSent) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const outreach = {
+                id: Date.now(),
+                recipientName,
+                recipientEmail,
+                recipientCompany,
+                channel,
+                dateSent,
+                outreachStatus,
+                serviceType,
+                followUpDate,
+                campaignNotes
+            };
+
+            outreachData.push(outreach);
+            saveOutreach();
+            clearOutreachForm();
+            renderOutreach();
+            updateOutreachStats();
+            alert('Outreach logged successfully!');
+        }
+
+        function clearOutreachForm() {
+            document.getElementById('recipientName').value = '';
+            document.getElementById('recipientEmail').value = '';
+            document.getElementById('recipientCompany').value = '';
+            document.getElementById('channel').value = '';
+            document.getElementById('dateSent').value = '';
+            document.getElementById('outreachStatus').value = 'Sent';
+            document.getElementById('serviceType').value = '';
+            document.getElementById('followUpDate').value = '';
+            document.getElementById('campaignNotes').value = '';
+        }
+
+        function saveOutreach() {
+            localStorage.setItem('outreachData', JSON.stringify(outreachData));
+        }
+
+        function renderOutreach() {
+            const searchTerm = document.getElementById('searchOutreach').value.toLowerCase();
+            const channelFilter = document.getElementById('filterChannel').value;
+            const statusFilter = document.getElementById('filterOutreachStatus').value;
+
+            const filtered = outreachData.filter(item => {
+                const matchesSearch = 
+                    item.recipientName.toLowerCase().includes(searchTerm) ||
+                    item.recipientCompany.toLowerCase().includes(searchTerm);
+                
+                const matchesChannel = !channelFilter || item.channel === channelFilter;
+                const matchesStatus = !statusFilter || item.outreachStatus === statusFilter;
+
+                return matchesSearch && matchesChannel && matchesStatus;
+            });
+
+            const container = document.getElementById('outreachTableContainer');
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No outreach logged yet. Start tracking your campaigns!</p></div>';
+                return;
+            }
+
+            const rows = filtered.map(item => `
+                <tr>
+                    <td>${item.recipientName}</td>
+                    <td>${item.recipientCompany}</td>
+                    <td><span class="channel-badge">${item.channel}</span></td>
+                    <td>${item.dateSent}</td>
+                    <td><span class="status-badge status-${item.outreachStatus.toLowerCase().replace(' ', '-')}">${item.outreachStatus}</span></td>
+                    <td>${item.serviceType}</td>
+                    <td>${item.followUpDate || '-'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button onclick="deleteOutreach(${item.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recipient</th>
+                            <th>Company</th>
+                            <th>Channel</th>
+                            <th>Date Sent</th>
+                            <th>Status</th>
+                            <th>Service</th>
+                            <th>Follow-up</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function deleteOutreach(id) {
+            if (confirm('Delete this outreach record?')) {
+                outreachData = outreachData.filter(item => item.id !== id);
+                saveOutreach();
+                renderOutreach();
+                updateOutreachStats();
+            }
+        }
+
+        function updateOutreachStats() {
+            const total = outreachData.length;
+            const emails = outreachData.filter(item => item.channel === 'Email').length;
+            const linkedin = outreachData.filter(item => item.channel === 'LinkedIn').length;
+            const replied = outreachData.filter(item => item.outreachStatus === 'Replied').length;
+            const responseRate = total > 0 ? Math.round((replied / total) * 100) : 0;
+
+            document.getElementById('totalOutreach').textContent = total;
+            document.getElementById('emailsSent').textContent = emails;
+            document.getElementById('linkedinOutreach').textContent = linkedin;
+            document.getElementById('responseRate').textContent = responseRate + '%';
+        }
+
+        function exportOutreach() {
+            if (outreachData.length === 0) {
+                alert('No outreach data to export!');
+                return;
+            }
+
+            let csv = 'Recipient Name,Company,Channel,Date Sent,Status,Service Type,Follow-up Date,Notes\n';
+            
+            outreachData.forEach(item => {
+                const row = [
+                    `"${item.recipientName}"`,
+                    `"${item.recipientCompany}"`,
+                    item.channel,
+                    item.dateSent,
+                    item.outreachStatus,
+                    item.serviceType,
+                    item.followUpDate,
+                    `"${item.campaignNotes.replace(/"/g, '""')}"`
+                ].join(',');
+                csv += row + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `outreach-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function clearAllOutreach() {
+            if (confirm('Delete ALL outreach records?')) {
+                outreachData = [];
+                saveOutreach();
+                renderOutreach();
+                updateOutreachStats();
+                alert('All outreach data cleared.');
+            }
+        }
+
+        document.getElementById('searchOutreach').addEventListener('input', renderOutreach);
+        document.getElementById('filterChannel').addEventListener('change', renderOutreach);
+        document.getElementById('filterOutreachStatus').addEventListener('change', renderOutreach);
+
+        renderOutreach();
+        updateOutreachStats();
+    </script>
+</body>
+</html>
