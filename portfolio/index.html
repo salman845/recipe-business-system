@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Business Portfolio - Premium Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            margin: 80px 0;
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .about {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .service-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 1.8em;
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #666;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .testimonial-text {
+            font-size: 1.05em;
+            margin-bottom: 15px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .testimonial-role {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            color: white;
+            border-bottom-color: white;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 40px auto 0;
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .contact-form button {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .contact-form button:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            header p {
+                font-size: 1.1em;
+            }
+
+            section h2 {
+                font-size: 1.8em;
+            }
+
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🍳 Professional Recipe Development</h1>
+        <p>Premium Recipe Services for Restaurants, Startups & Brands</p>
+    </header>
+
+    <div class="container">
+        <section class="about">
+            <h2>About My Services</h2>
+            <p>
+                I am a professional food recipe developer with extensive experience creating innovative, marketable recipes for restaurants, fast-food chains, meal prep companies, fitness brands, and more. I specialize in developing unique, profitable recipes that align with your brand vision and business goals.
+            </p>
+            <p style="margin-top: 20px;">
+                With a deep understanding of food trends, nutritional requirements, cost optimization, and culinary excellence, I deliver recipes that don't just taste amazing—they perform on your bottom line.
+            </p>
+        </section>
+
+        <section class="stats">
+            <div class="stat">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Recipes Developed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">30+</div>
+                <div class="stat-label">Successful Clients</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Client Satisfaction</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>🎯 Service Packages</h2>
+            <div class="services">
+                <div class="service-card">
+                    <h3>📖 Signature Recipes</h3>
+                    <p>Custom recipe development tailored to your brand</p>
+                    <ul class="features">
+                        <li>3-5 original recipes</li>
+                        <li>Ingredient sourcing recommendations</li>
+                        <li>Nutritional analysis</li>
+                        <li>Cost per serving calculations</li>
+                        <li>1 revision round</li>
+                    </ul>
+                    <div class="price">$500 - $800</div>
+                </div>
+
+                <div class="service-card">
+                    <h3>🍽️ Restaurant Menu Development</h3>
+                    <p>Complete menu overhaul or expansion</p>
+                    <ul class="features">
+                        <li>8-12 recipes</li>
+                        <li>Cuisine-specific expertise</li>
+                        <li>Seasonal menu planning</li>
+                        <li>Plating suggestions</li>
+                        <li>2 revision rounds</li>
+                    </ul>
+                    <div class="price">$1,500 - $2,500</div>
+                </div>
+
+                <div class="service-card">
+                    <h3>💪 Healthy Recipe Program</h3>
+                    <p>Nutritionally optimized recipes for health-conscious brands</p>
+                    <ul class="features">
+                        <li>5-10 recipes</li>
+                        <li>Macro tracking</li>
+                        <li>Allergen information</li>
+                        <li>Substitution options</li>
+                        <li>1 revision round</li>
+                    </ul>
+                    <div class="price">$600 - $1,000</div>
+                </div>
+
+                <div class="service-card">
+                    <h3>🍚 Sauce & Seasoning Formulations</h3>
+                    <p>Proprietary sauce and spice blend development</p>
+                    <ul class="features">
+                        <li>Custom formulation</li>
+                        <li>Flavor profile optimization</li>
+                        <li>Shelf-life analysis</li>
+                        <li>Ingredient sourcing</li>
+                        <li>Scaling guidance</li>
+                    </ul>
+                    <div class="price">$400 - $800</div>
+                </div>
+
+                <div class="service-card">
+                    <h3>📚 Cookbook Recipes</h3>
+                    <p>Professional recipe development for cookbook publication</p>
+                    <ul class="features">
+                        <li>Customized recipes</li>
+                        <li>Photography-ready presentation</li>
+                        <li>Ingredient consistency</li>
+                        <li>Dietary variations</li>
+                        <li>2 revision rounds</li>
+                    </ul>
+                    <div class="price">$300/recipe</div>
+                </div>
+
+                <div class="service-card">
+                    <h3>⚡ Fast-Food Concept Development</h3>
+                    <p>QSR-friendly recipes with speed and consistency</p>
+                    <ul class="features">
+                        <li>5-8 recipes</li>
+                        <li>Prep-ahead optimization</li>
+                        <li>Cost efficiency focus</li>
+                        <li>Scalability plans</li>
+                        <li>1 revision round</li>
+                    </ul>
+                    <div class="price">$800 - $1,500</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>✨ Why Choose Me</h2>
+            <div class="about" style="background: white; border-left: 4px solid #667eea;">
+                <ul class="features" style="list-style: none; margin: 0;">
+                    <li style="margin-bottom: 15px;"><strong>Expertise:</strong> 5+ years developing recipes for diverse food businesses</li>
+                    <li style="margin-bottom: 15px;"><strong>Creativity:</strong> Unique, market-differentiated recipes that set you apart</li>
+                    <li style="margin-bottom: 15px;"><strong>Professionalism:</strong> Detailed documentation, cost analysis, and implementation guidance</li>
+                    <li style="margin-bottom: 15px;"><strong>Collaboration:</strong> I work closely with your vision to create recipes that align with your brand</li>
+                    <li style="margin-bottom: 15px;"><strong>Quality:</strong> Every recipe is tested for taste, consistency, and profitability</li>
+                    <li><strong>Fast Turnaround:</strong> Most projects completed in 7-14 days</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>💬 Client Testimonials</h2>
+            <div class="testimonials">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "The recipes were exactly what we needed. They're practical, profitable, and delicious. Highly recommend!"
+                    </div>
+                    <div class="testimonial-author">Sarah Mitchell</div>
+                    <div class="testimonial-role">Restaurant Owner</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "Professional, responsive, and incredibly talented. My meal prep business has grown 40% since implementing these recipes."
+                    </div>
+                    <div class="testimonial-author">James Chen</div>
+                    <div class="testimonial-role">Meal Prep Company CEO</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "The attention to detail and nutritional analysis was outstanding. Perfect for our fitness brand."
+                    </div>
+                    <div class="testimonial-author">Emma Rodriguez</div>
+                    <div class="testimonial-role">Fitness Brand Manager</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <h2>📞 Get Started Today</h2>
+            <p style="font-size: 1.1em; margin-bottom: 30px;">Ready to transform your food business with premium recipes? Let's talk!</p>
+            
+            <div class="contact-form">
+                <input type="text" id="contactName" placeholder="Your Name" required>
+                <input type="email" id="contactEmail" placeholder="Your Email" required>
+                <input type="text" id="contactCompany" placeholder="Company/Business Name" required>
+                <select id="serviceInterest" required>
+                    <option value="">What service interests you?</option>
+                    <option value="Signature Recipes">Signature Recipes</option>
+                    <option value="Menu Development">Menu Development</option>
+                    <option value="Healthy Recipes">Healthy Recipe Program</option>
+                    <option value="Sauces">Sauce Formulations</option>
+                    <option value="Cookbook">Cookbook Recipes</option>
+                    <option value="Fast-Food">Fast-Food Concept</option>
+                    <option value="Other">Other</option>
+                </select>
+                <textarea id="contactMessage" placeholder="Tell me about your project..." required></textarea>
+                <button onclick="submitContact()">Schedule Consultation</button>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Professional Recipe Development Services. All rights reserved.</p>
+        <p style="margin-top: 10px; opacity: 0.8;">Ready to work with me? Contact me at your earliest convenience.</p>
+    </footer>
+
+    <script>
+        function submitContact() {
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const company = document.getElementById('contactCompany').value;
+            const service = document.getElementById('serviceInterest').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if (!name || !email || !company || !service || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // In a real scenario, this would send to a backend
+            // For now, save to localStorage and show confirmation
+            const inquiry = {
+                id: Date.now(),
+                name,
+                email,
+                company,
+                service,
+                message,
+                date: new Date().toLocaleDateString()
+            };
+
+            let inquiries = JSON.parse(localStorage.getItem('inquiries')) || [];
+            inquiries.push(inquiry);
+            localStorage.setItem('inquiries', JSON.stringify(inquiries));
+
+            alert(`Thank you, ${name}! I'll contact you at ${email} soon to discuss your project.`);
+            
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactCompany').value = '';
+            document.getElementById('serviceInterest').value = '';
+            document.getElementById('contactMessage').value = '';
+        }
+    </script>
+</body>
+</html>
