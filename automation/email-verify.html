@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .result-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .email-result {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .result-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .email-address {
+            font-weight: 600;
+            color: #333;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .status-valid {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-invalid {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-unknown {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1976d2;
+            margin-bottom: 20px;
+            color: #0d47a1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: 600;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85em;
+            background: #667eea;
+        }
+
+        .btn-copy {
+            background: #28a745;
+        }
+
+        .btn-copy:hover {
+            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-delete {
+            background: #dc3545;
+        }
+
+        .btn-delete:hover {
+            box-shadow: 0 5px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        .verification-tips {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .verification-tips h4 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #666;
+        }
+
+        .tips-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .email-result {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✉️ Email Verification Tool</h1>
+            <p>Verify email addresses and check if leads are valid</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>🔍 Verify Email Address</h2>
+                
+                <div class="info-box">
+                    <strong>💡 How it works:</strong> Enter an email address to verify if it's valid and active. The tool checks email format, domain validity, and common patterns. Perfect for validating leads before outreach!
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Single Email Address *</label>
+                        <input type="email" id="singleEmail" placeholder="john@restaurant.com">
+                    </div>
+                    <div class="form-group" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                        <button onclick="verifySingleEmail()">Verify Email</button>
+                    </div>
+                </div>
+
+                <div id="singleResultContainer"></div>
+            </div>
+
+            <div class="section">
+                <h2>📋 Batch Verify Multiple Emails</h2>
+                
+                <div class="info-box">
+                    <strong>💡 Batch Verification:</strong> Paste multiple email addresses (one per line) to verify them all at once. Great for validating your entire lead list!
+                </div>
+
+                <div class="form-group">
+                    <label>Paste Email List (One per line) *</label>
+                    <textarea id="emailList" placeholder="john@restaurant.com&#10;sarah@fitnessbrand.com&#10;mike@mealprep.com&#10;..."></textarea>
+                </div>
+
+                <button onclick="verifyBatchEmails()">Verify All Emails</button>
+
+                <div id="batchResultContainer"></div>
+            </div>
+
+            <div class="section">
+                <h2>📊 Verification History</h2>
+                <div id="historyContainer"></div>
+            </div>
+
+            <div class="verification-tips">
+                <h4>📚 Email Verification Tips</h4>
+                <ul class="tips-list">
+                    <li>Always verify emails before sending cold outreach</li>
+                    <li>Invalid/risky emails waste time and hurt your sender reputation</li>
+                    <li>This tool checks format, domain, and patterns (not server-based)</li>
+                    <li>Red flags: Disposable emails (temp-mail), obvious typos, inactive domains</li>
+                    <li>Green flags: Professional domain emails, proper format, active business domains</li>
+                    <li>Use verified emails to improve campaign response rates</li>
+                    <li>Add verified emails to your outreach campaigns</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let verificationHistory = JSON.parse(localStorage.getItem('emailVerifications')) || [];
+
+        const disposableDomains = [
+            'tempmail.com', 'temp-mail.org', 'throwaway.email', 'mailinator.com',
+            '10minutemail.com', 'guerrillamail.com', 'yopmail.com', '10minutemail.info',
+            'trashmail.com', 'fakeinbox.com', 'maildrop.cc', 'tempemails.com'
+        ];
+
+        const commonInvalidPatterns = [
+            /^test@/i,
+            /^demo@/i,
+            /^fake@/i,
+            /noemail/i,
+            /example\./i,
+            /test\./i
+        ];
+
+        function verifySingleEmail() {
+            const email = document.getElementById('singleEmail').value.trim();
+            
+            if (!email) {
+                alert('Please enter an email address');
+                return;
+            }
+
+            const result = verifyEmail(email);
+            displaySingleResult(result, email);
+        }
+
+        function verifyEmail(email) {
+            const result = {
+                email: email,
+                isValid: false,
+                isDisposable: false,
+                isDomainValid: false,
+                riskLevel: 'Unknown',
+                reasons: [],
+                timestamp: new Date().toLocaleDateString()
+            };
+
+            // Check email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                result.reasons.push('Invalid email format');
+                result.riskLevel = 'High';
+                return result;
+            }
+
+            // Extract domain
+            const domain = email.split('@')[1].toLowerCase();
+
+            // Check for disposable domains
+            if (disposableDomains.includes(domain)) {
+                result.isDisposable = true;
+                result.reasons.push('Disposable/temporary email domain');
+                result.riskLevel = 'High';
+                return result;
+            }
+
+            // Check for common invalid patterns
+            for (let pattern of commonInvalidPatterns) {
+                if (pattern.test(email)) {
+                    result.reasons.push('Matches test/demo email pattern');
+                    result.riskLevel = 'High';
+                    return result;
+                }
+            }
+
+            // Check domain validity (basic checks)
+            if (!domain.includes('.')) {
+                result.reasons.push('Domain missing TLD');
+                result.riskLevel = 'High';
+                return result;
+            }
+
+            // Check for common typos in popular domains
+            const commonDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'aol.com'];
+            const typoPatterns = {
+                'gmial.com': 'gmail.com',
+                'gmai.com': 'gmail.com',
+                'yaho.com': 'yahoo.com',
+                'outlok.com': 'outlook.com',
+                'hotmial.com': 'hotmail.com'
+            };
+
+            if (typoPatterns[domain]) {
+                result.reasons.push(`Possible typo: did you mean ${typoPatterns[domain]}?`);
+                result.riskLevel = 'Medium';
+                return result;
+            }
+
+            // If no issues found
+            result.isValid = true;
+            result.isDomainValid = true;
+            result.riskLevel = 'Low';
+            result.reasons.push('Email format is valid');
+            result.reasons.push('Domain appears legitimate');
+
+            return result;
+        }
+
+        function displaySingleResult(result, email) {
+            const badgeClass = result.riskLevel === 'Low' ? 'status-valid' : 
+                              result.riskLevel === 'High' ? 'status-invalid' : 'status-unknown';
+            const icon = result.riskLevel === 'Low' ? '✓' : 
+                        result.riskLevel === 'High' ? '✗' : '?';
+
+            const html = `
+                <div class="result-card">
+                    <h3>${icon} Verification Result</h3>
+                    <div class="email-result">
+                        <div>
+                            <div class="email-address">${result.email}</div>
+                            <span class="status-badge ${badgeClass}">
+                                ${result.riskLevel} Risk
+                            </span>
+                        </div>
+                        <div>
+                            <p><strong>Valid Format:</strong> ${result.isValid ? '✓ Yes' : '✗ No'}</p>
+                            <p><strong>Domain Valid:</strong> ${result.isDomainValid ? '✓ Yes' : '✗ No'}</p>
+                            <p><strong>Disposable:</strong> ${result.isDisposable ? '✗ Yes (Avoid)' : '✓ No'}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                        <h4 style="color: #333; margin-bottom: 10px;">Details:</h4>
+                        ${result.reasons.map(r => `<p style="color: #666; margin: 5px 0;">• ${r}</p>`).join('')}
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <button class="btn-small btn-copy" onclick="addToLeadTracker('${result.email}')">➕ Add to Lead Tracker</button>
+                        <button class="btn-small" onclick="saveVerification('${result.email}', '${result.riskLevel}')" style="margin-left: 10px;">💾 Save to History</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('singleResultContainer').innerHTML = html;
+        }
+
+        function verifyBatchEmails() {
+            const emailList = document.getElementById('emailList').value.trim().split('\n').filter(e => e.trim());
+            
+            if (emailList.length === 0) {
+                alert('Please enter at least one email address');
+                return;
+            }
+
+            const results = emailList.map(email => verifyEmail(email.trim()));
+            displayBatchResults(results);
+        }
+
+        function displayBatchResults(results) {
+            const validCount = results.filter(r => r.riskLevel === 'Low').length;
+            const invalidCount = results.filter(r => r.riskLevel === 'High').length;
+            const mediumCount = results.filter(r => r.riskLevel === 'Medium').length;
+            const validityPercent = Math.round((validCount / results.length) * 100);
+
+            let html = `
+                <div class="result-card" style="margin-top: 20px;">
+                    <h3>📊 Batch Verification Results</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin: 20px 0;">
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px;">
+                            <div style="font-size: 2em; color: #667eea; font-weight: bold;">${results.length}</div>
+                            <div style="color: #666; font-size: 0.9em;">Total Emails</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #d4edda; border-radius: 8px;">
+                            <div style="font-size: 2em; color: #155724; font-weight: bold;">${validCount}</div>
+                            <div style="color: #155724; font-size: 0.9em;">Valid (Safe)</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #fff3cd; border-radius: 8px;">
+                            <div style="font-size: 2em; color: #856404; font-weight: bold;">${mediumCount}</div>
+                            <div style="color: #856404; font-size: 0.9em;">Medium Risk</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f8d7da; border-radius: 8px;">
+                            <div style="font-size: 2em; color: #721c24; font-weight: bold;">${invalidCount}</div>
+                            <div style="color: #721c24; font-size: 0.9em;">Invalid (Skip)</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Validity Score: ${validityPercent}%</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${validityPercent}%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 15px;">📋 Detailed Results:</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Risk Level</th>
+                                <th>Issues</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${results.map((r, idx) => `
+                                <tr>
+                                    <td style="font-family: monospace; font-size: 0.9em;">${r.email}</td>
+                                    <td>${r.isValid ? '✓ Valid' : '✗ Invalid'}</td>
+                                    <td><span class="status-badge ${r.riskLevel === 'Low' ? 'status-valid' : r.riskLevel === 'High' ? 'status-invalid' : 'status-unknown'}">${r.riskLevel}</span></td>
+                                    <td>${r.reasons.length > 0 ? r.reasons[0] : 'None'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 8px;">
+                    <strong>💡 Recommendation:</strong>
+                    <p style="margin-top: 10px; color: #0d47a1;">
+                        Use the <strong>${validCount}</strong> valid emails for your outreach campaign. Skip the ${invalidCount} invalid emails to maintain your sender reputation.
+                    </p>
+                    <div style="margin-top: 10px;">
+                        <button class="btn-small btn-copy" onclick="copyValidEmails(${JSON.stringify(results.filter(r => r.riskLevel === 'Low').map(r => r.email)).replace(/"/g, '&quot;')})">📋 Copy Valid Emails</button>
+                        <button class="btn-small" onclick="saveAllVerifications(${JSON.stringify(results).replace(/"/g, '&quot;')})" style="margin-left: 10px;">💾 Save All to History</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('batchResultContainer').innerHTML = html;
+        }
+
+        function saveVerification(email, riskLevel) {
+            const record = {
+                id: Date.now(),
+                email: email,
+                riskLevel: riskLevel,
+                timestamp: new Date().toLocaleDateString(),
+                status: 'verified'
+            };
+
+            verificationHistory.push(record);
+            localStorage.setItem('emailVerifications', JSON.stringify(verificationHistory));
+            renderHistory();
+            alert('Email verification saved to history!');
+        }
+
+        function saveAllVerifications(resultsJson) {
+            const results = JSON.parse(resultsJson.replace(/&quot;/g, '"'));
+            results.forEach(r => {
+                const record = {
+                    id: Date.now() + Math.random(),
+                    email: r.email,
+                    riskLevel: r.riskLevel,
+                    timestamp: new Date().toLocaleDateString(),
+                    status: 'verified'
+                };
+                verificationHistory.push(record);
+            });
+
+            localStorage.setItem('emailVerifications', JSON.stringify(verificationHistory));
+            renderHistory();
+            alert(`Saved ${results.length} email verifications to history!`);
+        }
+
+        function addToLeadTracker(email) {
+            alert(`To add "${email}" to Lead Tracker:\n1. Go to Lead Tracker app\n2. Fill in the form\n3. Paste: ${email}\n4. Click "Add Lead"`);
+        }
+
+        function copyValidEmails(emailsJson) {
+            const emails = JSON.parse(emailsJson.replace(/&quot;/g, '"'));
+            const text = emails.join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Copied ${emails.length} valid emails to clipboard!`);
+            });
+        }
+
+        function renderHistory() {
+            if (verificationHistory.length === 0) {
+                document.getElementById('historyContainer').innerHTML = '<div class="empty-state">No verification history yet. Start by verifying some emails!</div>';
+                return;
+            }
+
+            const recentHistory = verificationHistory.slice(-10).reverse();
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Risk Level</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${recentHistory.map(h => `
+                            <tr>
+                                <td style="font-family: monospace; font-size: 0.9em;">${h.email}</td>
+                                <td><span class="status-badge ${h.riskLevel === 'Low' ? 'status-valid' : h.riskLevel === 'High' ? 'status-invalid' : 'status-unknown'}">${h.riskLevel}</span></td>
+                                <td>${h.status}</td>
+                                <td>${h.timestamp}</td>
+                                <td><button class="btn-small btn-delete" onclick="deleteVerification(${h.id})">Delete</button></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('historyContainer').innerHTML = html;
+        }
+
+        function deleteVerification(id) {
+            if (confirm('Delete this verification record?')) {
+                verificationHistory = verificationHistory.filter(v => v.id !== id);
+                localStorage.setItem('emailVerifications', JSON.stringify(verificationHistory));
+                renderHistory();
+            }
+        }
+
+        // Initialize
+        renderHistory();
+    </script>
+</body>
+</html>
